@@ -53,10 +53,10 @@ import pandas as pd
 import requests
 import urllib # given a web url we want to open that via urllib
 import time
-import requests, random
+import requests, random`
 
-data =[]
-
+`data =[]`
+`
 def getdata (url):
     user_agents = [
       "chrome/5.0 (Windows NT 6.0; Win64; x64",
@@ -72,46 +72,41 @@ def getdata (url):
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
     ]
     user_agent = random.choice(user_agents)
-    header_ = {'User-Agent': user_agent}
+    header_ = {'User-Agent': user_agent}`
 
     * The HTTP headers User-Agent is a request header that allows a characteristic string that allows network protocol peers to identify the Operating System and Browser of the web-server
-    
-    * header = { 'User-Agent' : 'chrome/5.0 (Windows NT 6.1; Win64; x64)' } 
-    * If error 503 occurs > type different browser names or NT 601, 6.2, 6.3, 10.0
-    * Win 32, 64, 128
-    * x32, 64, 128
 
-    req = urllib.request.Request(url, headers=header_)
+    `req = urllib.request.Request(url, headers=header_)`
 
     * The urllib.request module defines functions and classes which help in opening URLs (mostly HTTP), req will return a HTTP response which needs to be parsed.
-
+`
     amazon_html = urllib.request.urlopen(req).read()  # we call the read method to read the HTTP data
-
+`
     * It basically contains the entire HTML of the Amazon page, there are different tags in it like <div>,<h2>,<a>,<span>,<h3>
     * Now that we have fetched the page, the next part would be to parse the HTML, that's where Beautiful soup comes into picture  
     * BeautifulSoup is a class and we import that above and now we will use the soup class to make a soup object which will help us to parse the HTML.
-
+`
     a_soup = soup(amazon_html,'html.parser')
-
+`
     * soup() objects the html, we have to specify what kind of parsing we have to do 
         - example: whether it's a json kind of data, whether it's HTML kind or something else.
         - In our case it's HTML kind of data so we give html parse as the second argument
-        
+    `    
     cat = k
-
+`
 
 ## Now our next task is to extract the relevant details form a_soup
-
+`
     for e in f_soup.select('div[class="_13oc-S"]'):
     
         try:
             asin = e.find('a',{'class':'_1fQZEK'})['href'].split('=')[1].split('&')[0]
         except:
             asin = 'No ASIN Found'
-
+`
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Example URL   
-e.find('a',{'class':'_1fQZEK'})['href']  RETURNS US THE BELOW URL
+`e.find('a',{'class':'_1fQZEK'})['href'] ` RETURNS US THE BELOW URL
 
  https://www.flipkart.com/apple-iphone-11-purple-64-gb/p/itm2b8d03427ddac?pid=MOBFWQ6BTFFJKGKE&lid=LSTMOBFWQ6BTFFJKGKE6U3GXK&marketplace=FLIPKART&q=iphone+11&store=tyy%2F4io&srno=s_1_1&otracker=search&otracker1=search&fm=Search&iid=2e09f9e6-247c-4182-ac50-32b92b031b55.MOBFWQ6BTFFJKGKE.SEARCH&ppt=sp&ppn=sp&ssid=nu86986eds0000001650783552221&qH=f6cdfdaa9f3c23f3   
 
@@ -146,27 +141,27 @@ MOBFWQ6BTFFJKGKE
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 In case the code doesn't find any results it will return 'No ASIN Found'  that's what the below code will return.
-
+`
 except:
             asin = 'No ASIN Found'
-
+`
 --------------------------------------------------------------------------------------------------------------------------------------------------
-
+`
         try:
             exchange = e.select('div._3xFhiH')[0].text
         except:
             exchange = 'No Offer'
-
+`
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Bullet Points
 
-
+`
  bullet_p = e.find('ul',{'class':'_1xgFaf'}).selec('li.rgWa7D') 
-
+`
 * Basically we are getting the first <ul> with the class "_1xgFaf" and then getting <li> with the class "rgWa7D" within  the <ul>
-
-bullet_p = [b.text for b in bullet_p] 
+`
+bullet_p = [b.text for b in bullet_p] `
 * Then we are getting only the text from the <li>
 
 from our main div which we have named e > we want to find <ul> with the class '_1xgFaf'
@@ -183,8 +178,8 @@ The result will return us
  <li class="rgWa7D">Fast Charge Capable</li>,
  <li class="rgWa7D">Wireless charging (Works with Qi Chargers | Qi Chargers are Sold Separately</li>,
  <li class="rgWa7D">Brand Warranty of 1 Year</li>]
-
- [b.text for b in bullet_p]   will return us :
+`
+ [b.text for b in bullet_p] `  will return us :
 
  '64 GB ROM',
  '11.94 cm (4.7 inch) Retina HD Display',
@@ -197,21 +192,21 @@ The result will return us
 
 
 If no information is found return 'Information not showing up on the page'
-
+`
         except:
             bullet_p = 'Information not showing up on the page'
-    
+    `
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## Title 
 
-        try:
-            title = e.find('div',{'class':'_4rR01T'}).text
+  `      try:
+            title = e.find('div',{'class':'_4rR01T'}).text`
 Find  the div with the class '_4rR01T' and return the text.
 
-
+`
         except:
-            title = e.find('a',{'class':'s1Q9rs'}).text
+            title = e.find('a',{'class':'s1Q9rs'}).text`
 
 The reason why we are specifying [e.find('a',{'class':'s1Q9rs'}).text] in the except is because the detail interface changes when we search for results like 
 'earbuds', 'printer' etc.. so, even if the inerface changes we still will get the results for the title.
@@ -221,12 +216,12 @@ The reason why we are specifying [e.find('a',{'class':'s1Q9rs'}).text] in the ex
 
 
 # Stars
-
+`
         try:
             stars = e.find('div',{'class':'_3LWZlK'}).text
         except:
             stars = None
-
+`
  ![ ![image](https://user-images.githubusercontent.com/61817305/159735528-2596d3b2-35cb-4a99-9feb-db9df067afff.png)]
 
 
@@ -234,57 +229,59 @@ The reason why we are specifying [e.find('a',{'class':'s1Q9rs'}).text] in the ex
 
 # Ratings
             
-        try:
+   `     try:
             rating_count = e.find('span',{'class':'_2_R_DZ'}).text.split("&")[0]
         except:
-            rating_count = None
+            rating_count = None`
             
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Reviews
-        try:
+  `      try:
             review_count = e.find('span',{'class':'_2_R_DZ'}).text.split("&")[1]
         except:
             review_count = None
-
+`
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Listing Price 
-        try:
+   `     try:
             list_price = e.find('div',{'class':'_30jeq3 _1_WHN1'}).text
         except:
             list_price = 0
-            
+            `
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Original Price
+    `
         try:
             original_price  = e.find('div',{'class':'_3I9_wc _27UcVY'}).text
         except:
-            original_price = list_price
+            original_price = list_price`
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Discount
-
+`
         try:
             discount  = e.find('div',{'class':'_3Ay6Sb'}).text
         except:
             discount = 0
-
+`
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Delivery
-
+`
         try:
             delivery  = e.find('div',{'class':'_2Tpdn3'}).text
         except:
             delivery = 'No Free Delivery'
 
-
+`
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        data.append({
+  `
+    data.append({
             'ASIN': asin,
             'Category': cat,
             'exchange': exchange,
@@ -305,7 +302,7 @@ def getnextpage(f_soup):
     
     try:
         page = f_soup.select_one('a[href*="&page="]:-soup-contains("Next")')['href']
-
+`
 * First page will return 
 '/search?q=iphone&page=2'
 page 2 will return 
@@ -313,68 +310,69 @@ page 2 will return
 and so on ..
 .
 .
-
+`
         url =  'https://www.flipkart.com'+ str(page)
-
+`
 After first page results are found the URL  will become https://www.flipkart.com/search?q=iphone&page=2
 after we get second page results the URL will become https://www.flipkart.com/search?q=iphone&page=3
 and so on . . 
 
-        
+ `       
     except:
         url = None
 
     return url
 
-
+`
 If we found no URL retrun Nothing and return URL
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 # Keywords
 
 * We pass the keywords as a list
-
+`
 keywords = ['iphone','mobile','earphone','earbuds','hard+drive','headphone','laptop','mixer+grinder',
           'monitor','powerbank','printer','refrigerator','router','smartwatch','speaker','camera',
             'tablet','tv','vaccume+cleaner','washing+machine','apple+watch','macbook','irons',
             'water+purifier','fan','air+cooler','inverter','sewing+machine','water+geyser',
            'ac','juicer+mixer','rice+cooker','dishwasher']
-
+`
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
-for k in keywords:
+`
+    for k in keywords:`
 
 * for every keyword in keywords 
-
+`
     url = 'https://www.flipkart.com/search?q='+k
-
+`
 * URL will become 
 * https://www.flipkart.com/search?q='+iphone
 * * https://www.flipkart.com/search?q='+mobile
 
 and so on .. 
-
+`
     while True:
-
+`
 * Till you find the last keyword do the run the below functions
-
+`
         geturl = getdata(url)
-
+`
 * It will go to the top and run the function getdata(url)
 * Once it it is finished running that function 
 * The getdata(url) returns [ f_soup  ] 
 * It will run the below function
 * Which will accept the f_soup 
-
+`
         url = getnextpage(geturl)
-
+`
 * Go to the next page and return the URL of that page and give that to the getdata(url) function and this will continue till all results are found for a particular keyword and so on..
-        
+  `      
         if not url:
             print('N 0   M O R E   R E S U L T S    F O U N D  F O R  T H I S  P A G E ')
             print('        S H O W I N G   N E X T  P A G E   R E S U L T S             ')
             break
         print(url)
         
-
+`
     
